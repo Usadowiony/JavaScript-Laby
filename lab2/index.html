@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorium 2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <button>previous</button>
+        <section class="slider">
+            <img src="https://picsum.photos/600/300" alt="slide1">
+            <img src="https://picsum.photos/600/300" alt="slide2">
+            <img src="https://picsum.photos/600/300" alt="slide3">
+            <img src="https://picsum.photos/600/300" alt="slide4">
+        </section>
+        <button>next</button>
+    </main>
+    <script type="text/javascript">
+        const slider = document.querySelector(".slider")
+
+        let position = 0
+        const animation = setInterval(() =>{
+            img.style.transform = "translateX( "+ position + "px)"
+            position += 1
+        }, 16)
+
+        setTimeout(()=>{
+            clearInterval(animation)
+        }, 4000)
+    </script>
+</body>
+</html>
