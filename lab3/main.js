@@ -1,34 +1,27 @@
-// const sound = document.querySelectorAll('sound')
-const times = []
+const channel1 = []
 
-times.push({
-    key: 'a',
-    time: 123
-})
+const clapSound = document.querySelector('#clap')
+const hihatSound = document.querySelector('#hihat')
+const kickSound = document.querySelector('#kick')
+
 const sounds = {
-    'a': document.querySelector('#s1'),
-    's': document.querySelector('#s2'),
-    'd': document.querySelector('#s3'),
+    a: clapSound,
+    s: hihatSound,
+    d: kickSound
 }
-addEventListener('keypress',(ev)=>{
-    const key = ev.key
-    // switch(key) {
-    //     case 'a':
-    //         clap.currentTime = 0
-    //         clap.play()
-    //         break;
-    //     case 's':
-    //         kick.currentTime = 0
-    //         kick.play()
-    //         break;
-    //     case 'd':
-    //         hihat.currentTime = 0
-    //         hihat.play()
-    //         break;
-    // }
-    const sound = sounds[key]
-    console.dir(sound.dataset.key)
-    sound.currentTime= 0
-    sound.play()
-    
+
+document.addEventListener('keypress', (event) =>{
+    channel1.push(
+        {
+            key: event.key,
+            time: Date.now()
+        }
+    )
+
+    play(sounds[event.key]);
+    console.log(channel1)
 })
+function play(sound){
+    sound.currentTime = 0;
+    sound.play();
+}
