@@ -6,6 +6,56 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <input type="text" id="val1">
+    <input type="text" id="val2">
+    <input type="text" id="val3">
+    <input type="text" id="val4">
+    <button>Przelicz</button>
+    <p id="p1"></p>
+    <p id="p2"></p>
+    <p id="p3"></p>
+    <p id="p4"></p>
+    <main>
+        <script type="text/javascript">
+            const input1 = document.querySelector('#val1')
+            const input2 = document.querySelector('#val2')
+            const input3 = document.querySelector('#val3')
+            const input4 = document.querySelector('#val4')
+            const p1 = document.querySelector('#p1')
+            const p2 = document.querySelector('#p2')
+            const p3 = document.querySelector('#p3')
+            const p4 = document.querySelector('#p4')
+            const mainContainer = document.querySelector('main')
+            const button = document.querySelector('button')
+            const inputs = document.querySelectorAll('input')
+
+            const refreshFun = () =>{
+                const input1Value = input1.value
+                const input2Value = input2.value
+                const input3Value = input3.value
+                const input4Value = input4.value
+                const sumValue = parseInt(input1Value) + parseInt(input2Value) + parseInt(input3Value) + parseInt(input4Value)
+                const avgValue = (parseInt(input1Value) + parseInt(input2Value) + parseInt(input3Value) + parseInt(input4Value)) / 4
+                const minValue = Math.min(input1Value, input2Value, input3Value, input4Value)
+                const maxValue = Math.max(input1Value, input2Value, input3Value, input4Value)
+
+                p1.textContent = 'Suma: ' + sumValue
+                p2.textContent = 'Średnia: ' + avgValue
+                p3.textContent = 'Najmniejsza: ' + minValue
+                p4.textContent = 'Największa: ' + maxValue
+                console.log(avgValue)
+            }
+
+            button.addEventListener('click', () =>{
+                refreshFun()
+            })
+            inputs.forEach(e => {
+                    e.addEventListener('change', () =>{
+                    refreshFun()
+                })
+            });
+            
+        </script>
+    </main>
 </body>
 </html>
