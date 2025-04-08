@@ -8,29 +8,85 @@
 </head>
 <body>
     <main>
-        <button id="previous">previous</button>
+        <button id="previous">< Poprzednie</button>
         <section class="slider">
-            <img src="https://picsum.photos/600/300" alt="slide1" id="img1">
-            <img src="https://picsum.photos/600/300" alt="slide2" id="img2">
-            <img src="https://picsum.photos/600/300" alt="slide3" id="img3">
-            <img src="https://picsum.photos/600/300" alt="slide4" id="img4">
+            <div class="slides">
+                <img src="https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?cs=srgb&dl=pexels-pixabay-417173.jpg&fm=jpg" alt="slide1" class="slide">
+                <img src="https://www.wildnatureimages.com/images/640/070620-014-The-Tetons.jpg" alt="slide2" class="slide">
+                <img src="https://www.atlasandboots.com/wp-content/uploads/2021/12/most-beautiful-mountains-in-america-grand-teton.jpg" alt="slide3" class="slide">
+                <img src="https://media.timeout.com/images/106150176/image.jpg" alt="slide4" class="slide">
+            </div>
         </section>
-        <button id="next">next</button>
+        <button id="next">Następne ></button>
     </main>
+    <div class="dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+    <button id="pause">Pauza</button>
     <script type="text/javascript">
-        const slider = document.querySelector(".slider")
-        const btnPrevious = document.querySelector("#previous")
-        const btnNext = document.querySelector("#next")
+        const slides = document.querySelector(".slides");
+        const btnPrevious = document.querySelector("#previous");
+        const btnNext = document.querySelector("#next");
+        const btnPause = document.querySelector("#pause");
+        const dots = document.querySelectorAll(".dot");
+        
+        let currentSlide = 0;
+        let isPaused = false;
+        let interval;
+        const slideWidth = 600;
 
-        let position = 0
-        const animation = setInterval(() =>{
-            img.style.transform = "translateX( "+ position + "px)"
-            position += 1
-        }, 16)
+        function showSlide(n) {
+            currentSlide = n;
+            const offset = currentSlide * slideWidth;
+            slides.style.transform = `translateX(-${offset}px)`;
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle("active", index === currentSlide);
+            });
+        }
 
-        setTimeout(()=>{
-            clearInterval(animation)
-        }, 4000)
+        function nextSlide() {
+            if (currentSlide >= 3) {
+                currentSlide = 0;
+            } else {
+                currentSlide++;
+            }
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            if (currentSlide <= 0) {
+                currentSlide = 3;
+            } else {
+                currentSlide--;
+            }
+            showSlide(currentSlide);
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            btnPause.textContent = isPaused ? "Wznów" : "Pauza";
+            if (isPaused) {
+                clearInterval(interval);
+            } else {
+                interval = setInterval(nextSlide, 5000);
+            }
+        }
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener("click", () => {
+                showSlide(index);
+            });
+        });
+
+        btnNext.addEventListener("click", nextSlide);
+        btnPrevious.addEventListener("click", previousSlide);
+        btnPause.addEventListener("click", togglePause);
+
+        interval = setInterval(nextSlide, 5000);
     </script>
 </body>
 </html>
