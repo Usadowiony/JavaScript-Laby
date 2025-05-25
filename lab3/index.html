@@ -4,13 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drumkit</title>
+    <style>
+        .drum-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .drum-pad button {
+            padding: 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .drum-pad button.active {
+            background-color: #ff4444;
+        }
+        .channels {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .channel {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        .channel.active {
+            background-color: #ffeb3b;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+    </style>
 </head>
 <body>
-    <audio src="./sounds/clap.wav" controls data-key="a" data-volume="40" id="clap"></audio>
-    <audio src="./sounds/kick.wav" controls data-key="s" id="kick"></audio>
-    <audio src="./sounds/hihat.wav" controls data-key="d" id="hihat"></audio>
+    <div class="drum-pad">
+        <button data-key="a" data-sound="clap">Clap (A)</button>
+        <button data-key="s" data-sound="kick">Kick (S)</button>
+        <button data-key="d" data-sound="hihat">HiHat (D)</button>
+    </div>
 
-    <button id="record"></button>
+    <div class="controls">
+        <button id="play-all">Play All</button>
+        <button id="stop-all">Stop All</button>
+    </div>
+
+    <div id="channels-container" class="channels"></div>
+
+    <audio id="clap" src="./sounds/clap.wav"></audio>
+    <audio id="kick" src="./sounds/kick.wav"></audio>
+    <audio id="hihat" src="./sounds/hihat.wav"></audio>
 
     <script src="main.js"></script>
 </body>
