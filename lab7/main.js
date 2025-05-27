@@ -20,6 +20,23 @@ let score = 0;
 let gameActive = false;
 let timer = 60;
 let timerInterval = null;
+let gamma = 0;
+
+function moveBall(alpha, areaWidth, ballSize){
+    // Przeliczamy na zakres -180 do 180 (środek to 0)
+    let normalized = ((alpha + 180) % 360) - 180;
+    // Zakładamy, że max wychylenie to +/- 45 stopni
+    let maxTilt = 45;
+    if (normalized > maxTilt) normalized = maxTilt;
+    if (normalized < -maxTilt) normalized = -maxTilt;
+    // Przelicz na pozycję X w polu gry
+    // -maxTilt => 0px, 0 => środek, +maxTilt => maxX
+    let minX = 0;
+    let maxX = areaWidth - ballSize;
+    // Zmieniamy z zakresu (-maxTilt, maxTilt) na (minX, maxX)
+    let x = ((normalized + maxTilt) / (2 * maxTilt)) * maxX;
+    return x;
+}
 
 function startGame() {
     score = 0;
@@ -103,3 +120,12 @@ function spawnBall() {
 }
 
 startBtn.addEventListener('click', startGame);
+window.addEventListener('deviceorientation', function(event) {
+    // Przykład użycia:
+    if (ball && gameActive) {
+        const areaRect = gameArea.getBoundingClientRect();
+        const ballSize = 30;
+        const x = moveBall(event.alpha, areaRect.width, ballSize);
+        ball.style.left = x + 'px';
+    }
+});
