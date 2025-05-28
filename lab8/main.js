@@ -1,7 +1,9 @@
 const searchBtn = document.querySelector('#search-btn');
 const weatherIcon = document.querySelector('#weather-icon');
-const errorMessage = document.getElementById('error-message');
 const cityName = document.querySelector('#city-name');
+const temperature = document.querySelector('#temperature');
+const humidity = document.querySelector('#humidity');
+const errorMessage = document.getElementById('error-message');
 
 function getWeather(city) {
     const apiKey = '5a5f4b7ff8003dfe76f9c9448a301526';
@@ -26,6 +28,8 @@ searchBtn.addEventListener('click', () => {
             weatherIcon.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
             weatherIcon.alt = data.weather[0].description;
             cityName.textContent = data.name;
+            temperature.textContent = `Temperatura: ${data.main.temp}°C`;
+            humidity.textContent = `Wilgotność: ${data.main.humidity}%`;
         }
     })
     .catch(error => {
