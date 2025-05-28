@@ -4,9 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab 8</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>Pogodynka</h1>
+    <input type="text" id="city-input" placeholder="Wpisz miasto...">
+    <div id="buttons-row">
+        <button id="search-btn">Szukaj</button>
+        <button id="save-btn">Zapisz lokalizację</button>
+    </div>
+    <select id="saved-cities" size="4"></select>
+    <div id="weather-box">
+        <img id="weather-icon" src="" alt="pogoda" />
+        <div class="weather-info">
+            <div id="temperature">Temperatura: --°C</div>
+            <div id="humidity">Wilgotność: --%</div>
+        </div>
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
