@@ -1,3 +1,5 @@
+const searchBtn = document.querySelector('#search-btn');
+
 function getWeather(city) {
     const apiKey = '5a5f4b7ff8003dfe76f9c9448a301526';
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=pl`;
@@ -10,6 +12,8 @@ function getWeather(city) {
         })
 }
 
-getWeather('Warszawa').then(data => {
-    console.log(data);
-});
+searchBtn.addEventListener('click', () => {
+    getWeather('Warszawa').then(data => {
+        console.log(data);
+    });
+})
