@@ -11,5 +11,5 @@ function getWeather(city) {
 }
 
 getWeather('Warszawa').then(data => {
-    console.log(data); // tu masz dane pogodowe dla Warszawy
+    console.log(data);
 });
