@@ -13,7 +13,8 @@ function getWeather(city) {
 }
 
 searchBtn.addEventListener('click', () => {
-    getWeather('Warszawa').then(data => {
+    const cityInput = document.querySelector('#city-input');
+    getWeather(cityInput.value).then(data => {
         console.log(data);
     });
 })
