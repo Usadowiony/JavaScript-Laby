@@ -1,5 +1,6 @@
 const searchBtn = document.querySelector('#search-btn');
 const weatherIcon = document.querySelector('#weather-icon');
+const errorMessage = document.getElementById('error-message');
 
 function getWeather(city) {
     const apiKey = '5a5f4b7ff8003dfe76f9c9448a301526';
@@ -14,12 +15,18 @@ function getWeather(city) {
 }
 
 searchBtn.addEventListener('click', () => {
+    errorMessage.textContent = ""; // czyść poprzedni błąd
     const cityInput = document.querySelector('#city-input');
-    getWeather(cityInput.value).then(data => {
+    //tu bedzie zapisana lokazlicaja jako wartosc do wyszukania api (zastapimy cityInput.value)
+    getWeather(cityInput.value)
+    .then(data => {
         if(data && data.weather && data.weather[0]){
             const iconCode = data.weather[0].icon;
             weatherIcon.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
             weatherIcon.alt = data.weather[0].description;
         }
-    });
+    })
+    .catch(error => {
+            errorMessage.textContent = error.message;
+        });
 })

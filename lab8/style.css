@@ -54,3 +54,8 @@ h1 {
     margin-bottom: 12px;
     margin-top: 6px;
 }
+
+#error-message{
+    color:red;
+    margin-bottom:10px;
+}
