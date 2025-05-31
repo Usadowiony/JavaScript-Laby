@@ -13,10 +13,17 @@ const cityInput = document.querySelector('#city-input');
 let savedCities = [];
 
 function updateCitiesList() {
-    renderCities(savedCities, (idx) => {
-        savedCities.splice(idx, 1);
-        updateCitiesList();
-    });
+    renderCities(
+        savedCities,
+        (idx) => { // onDelete
+            savedCities.splice(idx, 1);
+            updateCitiesList();
+        },
+        (city) => { // onSelect
+            cityInput.value = city;
+            searchBtn.click();
+        }
+    );
 }
 
 // --- Eventy ---
