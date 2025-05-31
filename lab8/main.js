@@ -10,13 +10,15 @@ const errorMessage = document.getElementById('error-message');
 const saveBtn = document.getElementById('save-btn');
 const cityInput = document.querySelector('#city-input');
 
-let savedCities = [];
+const citiesFromStorage = localStorage.getItem('cities');
+let savedCities = citiesFromStorage ? JSON.parse(citiesFromStorage) : [];
 
 function updateCitiesList() {
     renderCities(
         savedCities,
         (idx) => { // onDelete
             savedCities.splice(idx, 1);
+            localStorage.setItem('cities', JSON.stringify(savedCities));
             updateCitiesList();
         },
         (city) => { // onSelect
@@ -29,8 +31,7 @@ function updateCitiesList() {
 // --- Eventy ---
 
 searchBtn.addEventListener('click', () => {
-    errorMessage.textContent = ""; // czyść poprzedni błąd
-    //tu bedzie zapisana lokazlicaja jako wartosc do wyszukania api (zastapimy cityInput.value)
+    errorMessage.textContent = "";
     getWeather(cityInput.value)
     .then(data => {
         if(data && data.weather && data.weather[0]){
@@ -48,7 +49,7 @@ searchBtn.addEventListener('click', () => {
 })
 
 saveBtn.addEventListener('click', () => {
-    errorMessage.textContent = ""; // czyść poprzedni błąd
+    errorMessage.textContent = "";
     getWeather(cityInput.value)
         .then(data => {
             if (data && data.weather && data.weather[0]) {
@@ -56,6 +57,7 @@ saveBtn.addEventListener('click', () => {
                 // Sprawdź, czy już jest na liście i czy nie przekroczono limitu
                 if (!savedCities.includes(city) && savedCities.length < 10) {
                     savedCities.push(city);
+                    localStorage.setItem('cities', JSON.stringify(savedCities));
                     errorMessage.textContent = "Dodano: " + city;
                     updateCitiesList();
                 } else if (savedCities.includes(city)) {
