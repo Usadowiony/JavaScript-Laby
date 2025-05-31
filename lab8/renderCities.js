@@ -19,5 +19,3 @@ export function renderCities(savedCities, onDelete, onSelect) {
         citiesList.appendChild(li);
     });
 }
-
-//dodac zapisywanie do localStorage

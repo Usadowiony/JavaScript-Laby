@@ -1,5 +1,6 @@
 import { getWeather } from './weatherApi.js';
 import { renderCities } from './renderCities.js';
+import { loadCities, saveCities } from './storage.js';
 
 const searchBtn = document.querySelector('#search-btn');
 const weatherIcon = document.querySelector('#weather-icon');
@@ -10,57 +11,44 @@ const errorMessage = document.getElementById('error-message');
 const saveBtn = document.getElementById('save-btn');
 const cityInput = document.querySelector('#city-input');
 
-const citiesFromStorage = localStorage.getItem('cities');
-let savedCities = citiesFromStorage ? JSON.parse(citiesFromStorage) : [];
+let savedCities = loadCities();
 
-function updateCitiesList() {
-    renderCities(
-        savedCities,
-        (idx) => { // onDelete
-            savedCities.splice(idx, 1);
-            localStorage.setItem('cities', JSON.stringify(savedCities));
-            updateCitiesList();
-        },
-        (city) => { // onSelect
-            cityInput.value = city;
-            searchBtn.click();
-        }
-    );
+function showWeather(data) {
+    const iconCode = data.weather[0].icon;
+    weatherIcon.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+    weatherIcon.alt = data.weather[0].description;
+    cityName.textContent = data.name;
+    temperature.textContent = `Temperatura: ${data.main.temp}°C`;
+    humidity.textContent = `Wilgotność: ${data.main.humidity}%`;
 }
 
-// --- Eventy ---
-
-searchBtn.addEventListener('click', () => {
+function handleSearch(city) {
     errorMessage.textContent = "";
-    getWeather(cityInput.value)
-    .then(data => {
-        if(data && data.weather && data.weather[0]){
-            const iconCode = data.weather[0].icon;
-            weatherIcon.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-            weatherIcon.alt = data.weather[0].description;
-            cityName.textContent = data.name;
-            temperature.textContent = `Temperatura: ${data.main.temp}°C`;
-            humidity.textContent = `Wilgotność: ${data.main.humidity}%`;
-        }
-    })
-    .catch(error => {
-            errorMessage.textContent = error.message;
-        });
-})
-
-saveBtn.addEventListener('click', () => {
-    errorMessage.textContent = "";
-    getWeather(cityInput.value)
+    getWeather(city)
         .then(data => {
             if (data && data.weather && data.weather[0]) {
-                const city = data.name;
-                // Sprawdź, czy już jest na liście i czy nie przekroczono limitu
-                if (!savedCities.includes(city) && savedCities.length < 10) {
-                    savedCities.push(city);
-                    localStorage.setItem('cities', JSON.stringify(savedCities));
-                    errorMessage.textContent = "Dodano: " + city;
+                showWeather(data);
+            } else {
+                errorMessage.textContent = "Nie znaleziono takiego miasta!";
+            }
+        })
+        .catch(error => {
+            errorMessage.textContent = error.message;
+        });
+}
+
+function handleSave(city) {
+    errorMessage.textContent = "";
+    getWeather(city)
+        .then(data => {
+            if (data && data.weather && data.weather[0]) {
+                const cityNameFromApi = data.name;
+                if (!savedCities.includes(cityNameFromApi) && savedCities.length < 10) {
+                    savedCities.push(cityNameFromApi);
+                    saveCities(savedCities);
+                    errorMessage.textContent = "Dodano: " + cityNameFromApi;
                     updateCitiesList();
-                } else if (savedCities.includes(city)) {
+                } else if (savedCities.includes(cityNameFromApi)) {
                     errorMessage.textContent = "To miasto już jest na liście!";
                 } else {
                     errorMessage.textContent = "Możesz zapisać maksymalnie 10 miast!";
@@ -72,6 +60,32 @@ saveBtn.addEventListener('click', () => {
         .catch(error => {
             errorMessage.textContent = error.message;
         });
+}
+
+function updateCitiesList() {
+    renderCities(
+        savedCities,
+        (idx) => {
+            savedCities.splice(idx, 1);
+            saveCities(savedCities);
+            updateCitiesList();
+        },
+        (city) => {
+            cityInput.value = city;
+            handleSearch(city);
+        }
+    );
+}
+
+// --- Eventy ---
+
+searchBtn.addEventListener('click', () => {
+    handleSearch(cityInput.value);
 });
 
+saveBtn.addEventListener('click', () => {
+    handleSave(cityInput.value);
+});
+
+// Inicjalizacja listy na starcie
 updateCitiesList();
