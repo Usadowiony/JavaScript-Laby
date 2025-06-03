@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lab 9 Canvas</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div style="margin-bottom:10px; text-align:center;">
+        <label>Kulki (X): <input type="number" id="balls-count" value="50" min="1" max="1000" style="width:60px;"></label>
+        <label style="margin-left:16px;">Odległość (Y): <input type="number" id="distance" value="180" min="10" max="1000" style="width:60px;"></label>
+        <button id="start-btn">Start</button>
+        <button id="reset-btn">Reset</button>
+    </div>
+    <canvas id="canvas" width="900" height="600" style="border:1px solid #333; display:block; margin:0 auto;"></canvas>
     <script src="main.js"></script>
 </body>
 </html>
