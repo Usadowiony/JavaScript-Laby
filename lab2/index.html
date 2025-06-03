@@ -19,51 +19,44 @@
         </section>
         <button id="next">Następne ></button>
     </main>
-    <div class="dots">
-        <span class="dot active"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-    </div>
+    <div class="dots"></div>
     <button id="pause">Pauza</button>
     <script type="text/javascript">
-        const slides = document.querySelector(".slides");
-        const btnPrevious = document.querySelector("#previous");
-        const btnNext = document.querySelector("#next");
-        const btnPause = document.querySelector("#pause");
-        const dots = document.querySelectorAll(".dot");
-        
+        const slides = document.querySelectorAll(".slide");
+        const btnPrevious = document.getElementById("previous");
+        const btnNext = document.getElementById("next");
+        const btnPause = document.getElementById("pause");
+        const dotsContainer = document.querySelector(".dots");
         let currentSlide = 0;
+        let interval = null;
         let isPaused = false;
-        let interval;
-        const slideWidth = 600;
+        let dots = [];
+
+        function createDots() {
+            dotsContainer.innerHTML = '';
+            dots = [];
+            for (let i = 0; i < slides.length; i++) {
+                const dot = document.createElement('span');
+                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => showSlide(i));
+                dotsContainer.appendChild(dot);
+                dots.push(dot);
+            }
+        }
 
         function showSlide(n) {
-            currentSlide = n;
-            const offset = currentSlide * slideWidth;
-            slides.style.transform = `translateX(-${offset}px)`;
-            
-            dots.forEach((dot, index) => {
-                dot.classList.toggle("active", index === currentSlide);
-            });
+            currentSlide = (n + slides.length) % slides.length;
+            const offset = currentSlide * slides[0].width;
+            slides[0].parentElement.style.transform = `translateX(-${offset}px)`;
+            dots.forEach((dot, i) => dot.classList.toggle("active", i === currentSlide));
         }
 
         function nextSlide() {
-            if (currentSlide >= 3) {
-                currentSlide = 0;
-            } else {
-                currentSlide++;
-            }
-            showSlide(currentSlide);
+            showSlide(currentSlide + 1);
         }
 
         function previousSlide() {
-            if (currentSlide <= 0) {
-                currentSlide = 3;
-            } else {
-                currentSlide--;
-            }
-            showSlide(currentSlide);
+            showSlide(currentSlide - 1);
         }
 
         function togglePause() {
@@ -76,17 +69,20 @@
             }
         }
 
-        dots.forEach((dot, index) => {
-            dot.addEventListener("click", () => {
-                showSlide(index);
-            });
-        });
-
         btnNext.addEventListener("click", nextSlide);
         btnPrevious.addEventListener("click", previousSlide);
         btnPause.addEventListener("click", togglePause);
 
-        interval = setInterval(nextSlide, 5000);
+        function startAutoSlide() {
+            if (interval) clearInterval(interval);
+            if (!isPaused) interval = setInterval(nextSlide, 5000);
+        }
+
+        window.addEventListener("load", () => {
+            createDots();
+            showSlide(0);
+            startAutoSlide();
+        });
     </script>
 </body>
 </html>
