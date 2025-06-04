@@ -1,8 +1,8 @@
-const gameArea = document.getElementById('gameArea');
+const gameArea = document.getElementById('game-area');
 const canvasArea = document.createElement('canvas');
-canvasArea.width = '600';
-canvasArea.height = '1000';
-gameArea.appendChild(canvasArea); // dodaj canvas do DOM gameArea
+canvasArea.width = 600;
+canvasArea.height = 1000;
+gameArea.appendChild(canvasArea); // poprawiona literówka
 
 const ctx = canvasArea.getContext('2d');
 
