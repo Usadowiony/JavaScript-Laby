@@ -26,20 +26,25 @@ let gameActive = false;
 let timerInterval;
 
 function startGame() {
+    //resetuj do defaultowych wartości
     score = 0;
-    timeLeft = 60;
+    timeLeft = 10;
     ballY = -30;
+    holeX = Math.random() * (canvasArea.width - 100); // losuj pozycję dziury na starcie
+
+    //wyświetl ui
     scoreBar.style.display = 'block';
     timerBar.style.display = 'block';
     hitsSpan.textContent = score;
     timeSpan.textContent = timeLeft;
-    gameActive = true;
-    if (timerInterval) clearInterval(timerInterval);
+
+    gameActive = true; // aktywuj grę
+    if (timerInterval) clearInterval(timerInterval); // wyczyść poprzedni timer jeśli był
     timerInterval = setInterval(() => {
         timeLeft--;
         timeSpan.textContent = timeLeft;
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval);
+        if (timeLeft <= 0) { // upłynął czas
+            clearInterval(timerInterval); // zatrzymaj timer
             gameActive = false;
         }
     }, 1000);
