@@ -1,6 +1,5 @@
 const gameArea = document.getElementById('game-area');
 
-
 const scoreBar = document.getElementById('score');
 const hitsSpan = document.getElementById('hits');
 const timerBar = document.getElementById('timer');
