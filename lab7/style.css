@@ -8,7 +8,7 @@ body {
 }
 #game-container {
     width: 600px;
-    height: 85vh;
+    height: 1000px;
     background: #eee;
     border-radius: 24px;
     box-shadow: 0 0 24px #0008;
@@ -16,14 +16,6 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-}
-@media (max-width: 600px) {
-    #game-container {
-        width: 100vw;
-        height: 100vh;
-        border-radius: 0;
-        box-shadow: none;
-    }
 }
 #top-bar {
     width: 100%;
@@ -65,8 +57,4 @@ body {
     height: 30px;
     background: #111;
     border-radius: 10px;
-}
-.ball {
-    box-shadow: 0 2px 8px #0005;
-    border: 2px solid #1976d2;
 }
