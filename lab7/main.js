@@ -1,7 +1,7 @@
 const gameArea = document.getElementById('game-area');
 const canvasArea = document.createElement('canvas');
-canvasArea.width = 600;
-canvasArea.height = 1000;
+canvasArea.width = 500;
+canvasArea.height = 800;
 gameArea.appendChild(canvasArea);
 
 const ctx = canvasArea.getContext('2d'); //Context do rysowania na canvasie
@@ -18,6 +18,9 @@ function drawBall(){
 }
 
 window.addEventListener('deviceorientation', (event) =>{
-    let alphaValue = event.alpha.toFixed(0); // Pobierz wartość alpha i zaokrąglij do pełnych stopni
-    console.log(alphaValue)
+    let tilt = event.beta.toFixed(0); // Pobierz wartość beta i zaokrąglij do pełnych stopni
+    if (tilt < 60) tilt = 60;
+    if (tilt > 120) tilt = 120;
+    console.log(tilt)
+    drawBall();
 });
