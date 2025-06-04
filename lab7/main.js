@@ -5,7 +5,7 @@ canvasArea.height = 800;
 gameArea.appendChild(canvasArea);
 
 const ctx = canvasArea.getContext('2d'); //Context do rysowania na canvasie
-let ballX = 30;
+let ballX = 470;
 let ballY = 30;
 
 function drawBall(){
@@ -18,9 +18,14 @@ function drawBall(){
 }
 
 window.addEventListener('deviceorientation', (event) =>{
-    let tilt = event.beta.toFixed(0); // Pobierz wartość beta i zaokrąglij do pełnych stopni
+    let tilt = event.beta; // Pobierz wartość beta
     if (tilt < 60) tilt = 60;
     if (tilt > 120) tilt = 120;
-    console.log(tilt)
+
+    // Przeskaluj tilt (60-120) na ballX (30-470)
+    let normalized = (tilt - 60) / (120 - 60); // 0 do 1
+    ballX = 30 + normalized * (470 - 30);
+    console.log('tilt:', tilt.toFixed(0), 'ballX:', ballX.toFixed(0));
+
     drawBall();
 });
