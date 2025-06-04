@@ -1,6 +1,7 @@
 body {
     font-family: Arial, sans-serif;
-    background: #f0f4f8;
+    background: #181a20;
+    color: #eee;
     margin: 0;
     padding: 24px;
     display: flex;
@@ -10,6 +11,7 @@ body {
 
 h1 {
     margin-bottom: 16px;
+    color: #fff;
 }
 
 #city-input {
@@ -17,30 +19,60 @@ h1 {
     padding: 8px;
     margin-bottom: 12px;
     border-radius: 4px;
-    border: 1px solid #bbb;
+    border: 1px solid #444;
+    background: #23262f;
+    color: #eee;
+    font-size: 1em;
+    transition: border 0.2s;
+}
+#city-input:focus {
+    border: 1.5px solid #4caf50;
+    outline: none;
 }
 
 #saved-cities {
     width: 230px;
     margin-bottom: 20px;
+    background: #23262f;
+    color: #eee;
+    border-radius: 6px;
+    border: 1px solid #444;
+    box-shadow: 0 2px 8px #0003;
+}
+
+#saved-cities li {
+    margin-bottom: 10px;
+    font-size: 0.95em;
+    letter-spacing: 0.01em;
+    padding: 4px 0 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+#saved-cities li:last-child {
+    margin-bottom: 0;
+}
+#saved-cities li:hover {
+    background: #23262f;
 }
 
 #weather-box {
     display: flex;
     align-items: center;
-    background: #fff;
+    background: #23262f;
     border-radius: 8px;
-    box-shadow: 0 2px 8px #0001;
+    box-shadow: 0 2px 16px #0008;
     padding: 16px 26px;
     min-width: 220px;
     min-height: 80px;
+    color: #eee;
+    border: 1px solid #444;
 }
 
 #weather-icon {
     width: 48px;
     height: 48px;
     margin-right: 18px;
-}
+}   
 
 .weather-info {
     display: flex;
@@ -55,8 +87,33 @@ h1 {
     margin-top: 6px;
 }
 
+#buttons-row button {
+    margin-right: 8px;
+    font-size: 0.92em;
+    padding: 4px 10px;
+}
+#buttons-row button:last-child {
+    margin-right: 10px;
+}
+
+button {
+    background: #23262f;
+    color: #eee;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 5px 14px;
+    font-size: 0.98em;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+button:hover {
+    background: #33374a;
+    color: #fff;
+    border: 1.5px solid #4caf50;
+}
+
 #error-message{
-    color:red;
+    color: #ff6b6b;
     margin-bottom:10px;
 }
 
@@ -65,4 +122,76 @@ h1 {
     font-size:1.2em;
     margin-top:18px;
     margin-bottom:6px;
+    color: #fff;
+}
+
+#cities-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 auto 0 auto;
+    width: 270px;
+    max-width: 90vw;
+    min-width: 180px;
+    display: block;
+}
+
+#cities-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+    letter-spacing: 0.01em;
+    padding: 8px 12px;
+    border-radius: 6px;
+    width: 100%;
+    min-width: 0;
+    background: #23262f;
+    box-shadow: 0 1px 6px #0002;
+    transition: background 0.2s;
+}
+#cities-list li:last-child {
+    margin-bottom: 10px;
+}
+#cities-list li:hover {
+    background: #262a36;
+}
+#cities-list .city-name {
+    flex: 1;
+    text-align: left;
+    font-weight: 500;
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#cities-list .city-actions {
+    display: flex;
+    gap: 8px;
+}
+#cities-list button {
+    font-size: 0.88em;
+    padding: 3px 10px;
+    background: #23262f;
+    color: #eee;
+    border: 1px solid #444;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+#cities-list button:hover {
+    background: #33374a;
+    color: #fff;
+    border: 1.5px solid #4caf50;
+}
+
+@media (max-width: 400px) {
+  #cities-list {
+    width: 98vw;
+    min-width: 0;
+    max-width: 100vw;
+  }
+  #cities-list li {
+    padding: 8px 4px;
+  }
 }
