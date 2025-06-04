@@ -9,8 +9,9 @@ gameArea.appendChild(canvasArea); // dodaj canvas do DOM
 const ctx = canvasArea.getContext('2d');
 
 let ballX = 470;
-let ballY = 30;
+let ballY = 770;
 let tilt = 90; // Pochylenie urządzenia w stopniach, gdzie 90 to środek
+let ballSpeedY = 2; // prędkość spadania kulki
 
 // Funkcja rysująca kulkę na canvasie
 function drawBall(){
@@ -27,6 +28,14 @@ function animate() {
     // Przeskaluj tilt (60-120) na ballX (30-470)
     let normalized = (tilt - 60) / (120 - 60);
     ballX = 30 + normalized * (470 - 30);
+
+    // Spadanie kulki
+    ballY += ballSpeedY;
+    if (ballY > 770) {
+        ballY = -30; // resetuj kulkę na górę
+        // (opcjonalnie) ballX = ...; // tu możesz losować nową pozycję X
+    }
+
     drawBall();
     requestAnimationFrame(animate); // poproś o kolejną klatkę animacji
 }
