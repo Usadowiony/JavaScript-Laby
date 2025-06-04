@@ -1,31 +1,44 @@
 const gameArea = document.getElementById('game-area');
+
 const canvasArea = document.createElement('canvas');
 canvasArea.width = 500;
 canvasArea.height = 800;
-gameArea.appendChild(canvasArea);
+gameArea.appendChild(canvasArea); // dodaj canvas do DOM
 
-const ctx = canvasArea.getContext('2d'); //Context do rysowania na canvasie
+// Pobierz kontekst rysowania 2D
+const ctx = canvasArea.getContext('2d');
+
 let ballX = 470;
 let ballY = 30;
+let tilt = 90; // Pochylenie urządzenia w stopniach, gdzie 90 to środek
 
+// Funkcja rysująca kulkę na canvasie
 function drawBall(){
-    ctx.clearRect(0, 0, canvasArea.width, canvasArea.height); // czyść canvas
+    ctx.clearRect(0, 0, canvasArea.width, canvasArea.height); // czyść cały canvas
     ctx.beginPath();
-    ctx.arc(ballX, ballY, 30, 0, Math.PI * 2); // Narysuj okrąg
-    ctx.fillStyle = 'blue';              // Ustaw kolor
-    ctx.fill();                          // Wypełnij okrąg kolorem
+    ctx.arc(ballX, ballY, 30, 0, Math.PI * 2); // rysuj okrąg o promieniu 30 w pozycji (ballX, ballY)
+    ctx.fillStyle = 'blue';
+    ctx.fill();
     ctx.closePath();
 }
 
-window.addEventListener('deviceorientation', (event) =>{
-    let tilt = event.beta; // Pobierz wartość beta
+// Funkcja animująca ruch kulki
+function animate() {
+    // Przeskaluj tilt (60-120) na ballX (30-470)
+    let normalized = (tilt - 60) / (120 - 60);
+    ballX = 30 + normalized * (470 - 30);
+    drawBall();
+    requestAnimationFrame(animate); // poproś o kolejną klatkę animacji
+}
+
+// Nasłuchuj zmian orientacji urządzenia
+window.addEventListener('deviceorientation', (event) => {
+    tilt = event.beta; // pobierz wartość beta
+    // Ogranicz tilt do zakresu 60-120 stopni
     if (tilt < 60) tilt = 60;
     if (tilt > 120) tilt = 120;
-
-    // Przeskaluj tilt (60-120) na ballX (30-470)
-    let normalized = (tilt - 60) / (120 - 60); // 0 do 1
-    ballX = 30 + normalized * (470 - 30);
+    // Wyświetl wartości w konsoli (do debugowania)
     console.log('tilt:', tilt.toFixed(0), 'ballX:', ballX.toFixed(0));
-
-    drawBall();
 });
+
+animate(); // Rozpocznij animację
