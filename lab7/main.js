@@ -8,6 +8,7 @@ gameArea.appendChild(canvasArea); // dodaj canvas do DOM
 // Pobierz kontekst rysowania 2D
 const ctx = canvasArea.getContext('2d');
 
+let holeX = (canvasArea.width - 100) / 2; // wyśrodkowana dziura
 let ballX = 470;
 let ballY = 770;
 let tilt = 90; // Pochylenie urządzenia w stopniach, gdzie 90 to środek
@@ -21,6 +22,12 @@ function drawBall(){
     ctx.fillStyle = 'blue';
     ctx.fill();
     ctx.closePath();
+}
+
+// Funkcja rysująca dziure na canvasie
+function drawHole(){
+    ctx.fillStyle = '#111'; // najpierw ustaw kolor
+    ctx.fillRect(holeX, 700, 100, 20); // potem rysuj prostokąt
 }
 
 // Funkcja animująca ruch kulki
@@ -37,6 +44,7 @@ function animate() {
     }
 
     drawBall();
+    drawHole()
     requestAnimationFrame(animate); // poproś o kolejną klatkę animacji
 }
 
