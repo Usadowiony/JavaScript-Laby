@@ -22,33 +22,40 @@
     <div class="dots"></div>
     <button id="pause">Pauza</button>
     <script type="text/javascript">
+
         const slides = document.querySelectorAll(".slide");
         const btnPrevious = document.getElementById("previous");
         const btnNext = document.getElementById("next");
         const btnPause = document.getElementById("pause");
         const dotsContainer = document.querySelector(".dots");
+
         let currentSlide = 0;
-        let interval = null;
-        let isPaused = false;
+        let interval = null; // Zmienna na id interwału automatycznego przesuwania
+        let isPaused = false; // Czy pokaz slajdów jest zatrzymany
         let dots = [];
 
+        // Tworzy kropki pod sliderem i podpina im kliknięcia
         function createDots() {
             dotsContainer.innerHTML = '';
             dots = [];
             for (let i = 0; i < slides.length; i++) {
                 const dot = document.createElement('span');
                 dot.className = 'dot' + (i === 0 ? ' active' : '');
+                // Po kliknięciu w kropkę pokazujemy odpowiedni slajd
                 dot.addEventListener('click', () => showSlide(i));
                 dotsContainer.appendChild(dot);
                 dots.push(dot);
             }
         }
 
+        // Pokazuje slajd o numerze n
         function showSlide(n) {
+            // Zapętlamy numer slajdu (żeby po ostatnim wracało do pierwszego)
             currentSlide = (n + slides.length) % slides.length;
+            // Przesuwamy kontener ze slajdami w lewo o szerokość slajdu * numer slajdu
             const offset = currentSlide * slides[0].width;
             slides[0].parentElement.style.transform = `translateX(-${offset}px)`;
-            dots.forEach((dot, i) => dot.classList.toggle("active", i === currentSlide));
+            dots.forEach((dot, i) => dot.classList.toggle("active", i === currentSlide)); // Podświetlamy aktywną kropkę
         }
 
         function nextSlide() {
@@ -59,6 +66,7 @@
             showSlide(currentSlide - 1);
         }
 
+        // Zatrzymaj/wznów automatyczne przesuwanie slajdów
         function togglePause() {
             isPaused = !isPaused;
             btnPause.textContent = isPaused ? "Wznów" : "Pauza";
@@ -73,11 +81,13 @@
         btnPrevious.addEventListener("click", previousSlide);
         btnPause.addEventListener("click", togglePause);
 
+        // Automatyczne przesuwanie slajdów
         function startAutoSlide() {
-            if (interval) clearInterval(interval);
-            if (!isPaused) interval = setInterval(nextSlide, 5000);
+            if (interval) clearInterval(interval); // jeśli już działa, to zatrzymaj
+            if (!isPaused) interval = setInterval(nextSlide, 5000); // jeśli nie pauza, to start
         }
 
+        // Po załadowaniu strony tworzymy kropki, pokazujemy pierwszy slajd i startujemy auto-przesuwanie
         window.addEventListener("load", () => {
             createDots();
             showSlide(0);
