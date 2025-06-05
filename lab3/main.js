@@ -79,20 +79,14 @@ function toggleRecord(idx) {
 function playChannel(idx) {
     stopChannel(idx); // zatrzymaj ewentualne wcześniejsze odtwarzanie
     channels[idx].forEach(event => {
-        // setTimeout planuje wywołanie playSound w przyszłości (za event.time ms)
-        // const t to id pojedynczego timeoutu (np. 12, 13, 14...), który zwraca setTimeout
-        // Od razu po utworzeniu, t jest dodawane do tablicy playTimeouts[idx]
-        // Dzięki temu mamy listę WSZYSTKICH zaplanowanych timeoutów dla danego kanału
+        // Odtwarzaj dźwięk po odpowiednim czasie od startu
         const t = setTimeout(() => playSound(event.sound), event.time);
-        playTimeouts[idx].push(t);  // zapisz id timeoutu do tablicy, żeby móc go anulować
+        playTimeouts[idx].push(t);  // zapisz timeout do tablicy
     });
 }
 
 // --- Zatrzymanie odtwarzania na kanale ---
 function stopChannel(idx) {
-    // Przechodzimy po WSZYSTKICH id timeoutów zapisanych w playTimeouts[idx]
-    // i anulujemy je przez clearTimeout(t). Dzięki temu żaden zaplanowany dźwięk nie zostanie odtworzony,
-    // jeśli klikniesz "Stop" zanim timeout się wykona.
     playTimeouts[idx].forEach(t => clearTimeout(t));
     playTimeouts[idx] = [];
 }
